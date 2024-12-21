@@ -1,24 +1,45 @@
-// filepath: /Users/vince/project/bolt-generated-project1/src/ProspectList.jsx
-import React, { useState, useEffect } from 'react';
-import './ProspectList.css';
-
-function ProspectList() {
-  const [prospects, setProspects] = useState([]);
-
-  useEffect(() => {
-    // Fetch prospects from API
-    fetch('/api/prospects')
-      .then(response => response.json())
-      .then(data => setProspects(data));
-  }, []);
-
-  return (
-    <ul className="prospect-list">
-      {prospects.map(prospect => (
-        <li key={prospect.id}>{prospect.name}</li>
-      ))}
-    </ul>
-  );
+// filepath: /Users/vince/project/bolt-generated-project1/src/ProspectList.css
+.prospect-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-export default ProspectList;
+.prospect-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.prospect-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prospect-item h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.prospect-item p {
+  margin: 0;
+  color: #666;
+}
+
+.add-button {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.add-button:hover {
+  background: #0056b3;
+}

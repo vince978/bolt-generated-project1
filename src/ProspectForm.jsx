@@ -1,38 +1,48 @@
 // filepath: /Users/vince/project/bolt-generated-project1/src/ProspectForm.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useProspects } from './ProspectContext';
 import './ProspectForm.css';
 
 function ProspectForm() {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const { addProspect } = useProspects();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitting new prospect:', name);
-    // Post new prospect to API
-    fetch('/api/prospects', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('New prospect added:', data);
-        setName('');
-      });
+    addProspect({ name, email });
+    navigate('/');
   };
 
   return (
-    <form className="prospect-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Enter prospect name"
-      />
-      <button type="submit">Add Prospect</button>
-    </form>
+    <div className="form-container">
+      <h1>Ajouter un Prospect</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="name">Nom:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Ajouter</button>
+      </form>
+    </div>
   );
 }
 
