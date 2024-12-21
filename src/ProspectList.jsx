@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react';
-    import axios from 'axios';
+// filepath: /Users/vince/project/bolt-generated-project1/src/ProspectList.jsx
+import React, { useState, useEffect } from 'react';
+import './ProspectList.css';
 
-    function ProspectList() {
-      const [prospects, setProspects] = useState([]);
+function ProspectList() {
+  const [prospects, setProspects] = useState([]);
 
-      useEffect(() => {
-        axios.get('/api/prospects')
-          .then(response => {
-            setProspects(response.data);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }, []);
+  useEffect(() => {
+    console.log('Fetching prospects...');
+    // Fetch prospects from API
+    fetch('/api/prospects')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Prospects fetched:', data);
+        setProspects(data);
+      });
+  }, []);
 
-      return (
-        <div>
-          <h1>Prospects</h1>
-          <ul>
-            {prospects.map(prospect => (
-              <li key={prospect.id}>
-                {prospect.name}
-              </li>
-            ))}
-          </ul>
-          <a href="/prospects/new">Ajouter un prospect</a>
-        </div>
-      );
-    }
+  return (
+    <ul className="prospect-list">
+      {prospects.map(prospect => (
+        <li key={prospect.id}>{prospect.name}</li>
+      ))}
+    </ul>
+  );
+}
 
-    export default ProspectList;
+export default ProspectList;

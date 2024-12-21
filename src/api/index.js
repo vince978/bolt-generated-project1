@@ -1,26 +1,23 @@
-import { createServer } from 'http';
-    import { createApp } from 'express';
-    import { createProxyMiddleware } from 'http-proxy-middleware';
-    import { getProspects, createProspect } from './prospects';
+// filepath: /Users/vince/project/bolt-generated-project1/src/api/index.js
+import express from 'express';
+import { getProspects, createProspect } from './prospects.js';
 
-    const app = createApp();
+const app = express();
+const port = 3001;
 
-    app.use('/api/prospects', async (req, res) => {
-      if (req.method === 'GET') {
-        const prospects = await getProspects();
-        res.json(prospects);
-      } else if (req.method === 'POST') {
-        const prospect = req.body;
-        const newProspect = await createProspect(prospect);
-        res.json(newProspect);
-      } else {
-        res.status(405).send('Method not allowed');
-      }
-    });
+app.use(express.json());
 
-    app.use('/', createProxyMiddleware({ target: 'http://localhost:3000' }));
+app.get('/api/prospects', async (req, res) => {
+  const prospects = await getProspects();
+  res.json(prospects);
+});
 
-    const server = createServer(app);
-    server.listen(3001, () => {
-      console.log('Server listening on port 3001');
-    });
+app.post('/api/prospects', async (req, res) => {
+  const prospect = req.body;
+  const newProspect = await createProspect(prospect);
+  res.status(201).json(newProspect);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
